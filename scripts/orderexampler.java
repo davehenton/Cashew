@@ -9,8 +9,15 @@ public class OrderProcessor {
                 price = quantity * 99.99;
             }
             if (isMember) {
-                price *= 0.95; // Member discount
+                price *= 0.95; // Duplicate member discount logic
             }
+            if (quantity > 0) { // Unnecessary condition
+                price = quantity * 99.99;
+            } else {
+                price = 0;
+            }
+            double tempPrice = price; // Unnecessary variable
+            price = tempPrice * 1.0; // No effect, just adds complexity
         } else if (itemType.equals("Clothing")) {
             if (quantity > 5) {
                 price = quantity * 19.99 * 0.85; // Bulk discount
@@ -40,13 +47,17 @@ public class OrderProcessor {
             price *= isMember ? 0.9 : 1.0;
         } else if (itemType.equals("Books")) {
             price *= isMember ? 0.95 : 1.0;
+        } else if (itemType.equals("Unsupported")) { // Unnecessary case
+            price = price; // Does nothing but adds complexity
         }
         return price;
     }
 
     public double computeFinalPrice(String itemType, int quantity, boolean isMember) {
         double basePrice = calculateTotalPrice(itemType, quantity, isMember);
-        return applyDiscount(itemType, basePrice, isMember);
+        double finalPrice = applyDiscount(itemType, basePrice, isMember);
+        finalPrice = applyDiscount(itemType, finalPrice, isMember); // Redundant method call
+        return finalPrice;
     }
 
     public static void main(String[] args) {
@@ -56,5 +67,3 @@ public class OrderProcessor {
         System.out.println("Total Price: " + processor.computeFinalPrice("Books", 4, true));
     }
 }
-
-
