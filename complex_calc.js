@@ -74,3 +74,4 @@ for (let i = 0; i < 5; i++) {
 }
 
 let unusedVar = 'this is never used'; // Declared but never used
+
